@@ -1,1 +1,2 @@
-# Data-Stream-and-Graph-Mining
+# Data Stream and Graph Mining
+
