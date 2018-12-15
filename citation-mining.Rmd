@@ -19,19 +19,73 @@ library(igraph)
 
 ```{r}
 citationGraph <- graph.data.frame(Cit.HepPh)
-plot(citationGraph, vertex.label=NA)
+
+l <- layout_with_fr(citationGraph)
+l <- norm_coords(l, ymin = -1, ymax = 1, xmin = -1, xmax = 1)
+plot(citationGraph, vertex.label=NA, layout=l, rescale=F, edge.arrow.size=0.2, vertex.size=7)
 ```
 
 ```{r}
 citation_dummy = Cit.HepPh[c(1:1000),]
 citationGraph_dummy = graph.data.frame(citation_dummy)
 
+#cut.off <- mean(link$weight)
+#citationGraph_dummy <- delete_edges(citationGraph_dummy,[weight])
+V(citationGraph_dummy)$vertex_degree <- degree(citationGraph_dummy)
 l <- layout_with_fr(citationGraph_dummy)
-plot(citationGraph_dummy, vertex.label=NA, layout=l)
+l <- norm_coords(l, ymin = -1, ymax = 1, xmin = -1, xmax = 1)
 
+deg = degree(citationGraph_dummy, mode="in")
+
+
+plot(citationGraph_dummy, layout=l, rescale=F, edge.arrow.size=0.2, vertex.size=4+deg, vertex.label.cex=.5, vertex.label=NA)
+
+```
+
+```{r}
+deg.dist <- degree_distribution(citationGraph_dummy, cumulative=T, mode="out")
+plot( x=0:max(deg.dist), y=1-deg.dist, pch=19, cex=1.2, col="orange", xlab="Degree", ylab="Cumulative Frequency")
+
+```
+
+```{r}
+ceb <- cluster_edge_betweenness(citationGraph_dummy)
+V(citationGraph_dummy)$community <- ceb$membership
+n_cluster <- max(V(citationGraph_dummy)$community)
+colors <- randomColor(n_cluster)
+#colors <- adjustcolor(c("gray50", "tomato", "gold", "yellowgreen"), alpha=.6)
+kc <- coreness(citationGraph_dummy, mode="in")
+plot(citationGraph_dummy, layout=l, rescale=F, edge.arrow.size=0.2, vertex.size=4+deg, vertex.label.cex=.5, vertex.label=NA, vertex.color=colors[V(citationGraph_dummy)$community])
 ```
 
 ```{r}
 
 ```
+
+```{r}
+library(igraph)
+library(magrittr)
+library(visNetwork)
+library(data.table)
+```
+
+```{r}
+#graph <- graph.data.frame(citation_dummy, directed=T)
+#graph <- simplify(graph)
+
+#V(graph)$indegree <- centr_degree(graph, mode = "in")$res
+
+#nodes <- get.data.frame(graph, what="vertices")
+#nodes <- data.frame(id = nodes$name, title = nodes$name, group = nodes$indegree, indegree = #nodes$indegree)
+#setnames(nodes, "indegree", "in-degree centrality")
+#nodes <- nodes[order(nodes$id, decreasing = F),]
+
+#edges <- get.data.frame(graph, what="edges")[1:2]
+
+#visNetwork(nodes, edges, height = "500px", width = "100%") %>%
+#visOptions(selectedBy = "in-degree centrality", highlightNearest = TRUE, nodesIdSelection = TRUE)%>%
+#visPhysics(stabilization = FALSE)%>% 
+#visEdges(arrow = "to")
+```
+
 
