@@ -14,11 +14,10 @@ The preview shows you a rendered HTML copy of the contents of the editor. Conseq
 
 ```{r}
 library(igraph)
-
 ```
 
 
 ```{r}
-
+citationGraph <- graph.data.frame(Cit.HepPh)
 ```
 
