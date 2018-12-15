@@ -19,5 +19,19 @@ library(igraph)
 
 ```{r}
 citationGraph <- graph.data.frame(Cit.HepPh)
+plot(citationGraph, vertex.label=NA)
+```
+
+```{r}
+citation_dummy = Cit.HepPh[c(1:1000),]
+citationGraph_dummy = graph.data.frame(citation_dummy)
+
+l <- layout_with_fr(citationGraph_dummy)
+plot(citationGraph_dummy, vertex.label=NA, layout=l)
+
+```
+
+```{r}
+
 ```
 
