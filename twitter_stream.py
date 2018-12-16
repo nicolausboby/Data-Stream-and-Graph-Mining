@@ -17,6 +17,8 @@ CONSUMER_SECRET = os.getenv("OAUTH_SECRET")
 ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 ACCESS_SECRET = os.getenv("ACCESS_SECRET")
 
+filter_words = ["trade war", "trade wars", "tradewar", "#tradewar", "tradewars", "#tradewars"]
+
 class TwitterListener(StreamListener):
     def __init__(self, conn):
         self.conn = conn
