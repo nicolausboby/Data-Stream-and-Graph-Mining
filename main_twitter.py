@@ -104,7 +104,7 @@ if __name__ == "__main__":
     streaming_context.start()
 
     # wait stream processing then stop
-    streaming_context.awaitTermination(65)
+    streaming_context.awaitTermination(605)
     streaming_context.stop(stopSparkContext=False)
 
     # read stored tweets
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     transactions = data.map(lambda line: get_distinct_words(line))
     
     # count itemsets
-    model = FPGrowth.train(transactions, minSupport=0.025, numPartitions=10)
+    model = FPGrowth.train(transactions, minSupport=0.2, numPartitions=10)
     result = model.freqItemsets().collect()
     for fi in result:
         print(fi)

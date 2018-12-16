@@ -45,7 +45,7 @@ def sendTwitterData(conn):
 
     api = tweepy.API(auth)
     stream = tweepy.Stream(auth = api.auth, listener=TwitterListener(conn))
-    stream.filter(track=["trade"])
+    stream.filter(track=filter_words)
     # stream.filter(track=["trade war", "trade wars", "tradewar", "#tradewar", "tradewars", "#tradewars"])
 
 if __name__ == "__main__":
